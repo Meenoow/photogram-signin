@@ -5,15 +5,24 @@ class PhotosController < ApplicationController
   end
 
   def create
-    user_id = params.fetch("input_owner_id")
+    user_id = session.fetch(:user_id)
     image = params.fetch("input_image")
     caption = params.fetch("input_caption")
-    photo = Photo.new
-    photo.owner_id = user_id
-    photo.image = image
-    photo.caption = caption
-    photo.save
-    redirect_to("/photos/#{photo.id}")
+    @photo = Photo.new
+    @photo.owner_id = user_id
+    @photo.image = image
+    @photo.caption = caption
+    @photo.save
+    redirect_to("/photos/#{@photo.id}")
+
+
+    # user = User.where({:id =>user_id})
+    # @matched_user = user.at(0)
+
+    # owner = Photo.where({:owner_id => user})
+    # @matched_owner = owner.first
+
+
   end
 
   def show
